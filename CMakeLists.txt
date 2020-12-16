@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.2)
 
 include("cmake/HunterGate.cmake")
 HunterGate(
-    URL "https://github.com/cpp-pm/hunter/archive/v0.23.262.tar.gz"
-    SHA1 "eb51e633e08cdbe2153caf255e9c23968fecb29d"
+    URL "https://github.com/cpp-pm/hunter/archive/v0.23.288.tar.gz"
+    SHA1 "6c9b2bc606d86ae31f96a62fc68f0a593024815b"
 )
 
 project(s3 VERSION 4.1)
@@ -32,6 +32,10 @@ target_link_libraries(s3 PUBLIC libxml2::libxml2)
 hunter_add_package(CURL)
 find_package(CURL CONFIG REQUIRED)
 target_link_libraries(s3 PUBLIC CURL::libcurl)
+
+hunter_add_package(ZLIB)
+find_package(ZLIB CONFIG REQUIRED)
+target_link_libraries(s3 PUBLIC ZLIB::zlib)
 
 target_include_directories(
     s3 PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/inc>
