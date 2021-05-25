@@ -1,10 +1,12 @@
 cmake_minimum_required(VERSION 3.2)
 
-include("cmake/HunterGate.cmake")
-HunterGate(
-    URL "https://github.com/cpp-pm/hunter/archive/v0.23.288.tar.gz"
-    SHA1 "6c9b2bc606d86ae31f96a62fc68f0a593024815b"
-)
+if(NOT LIBS3_DISABLE_CMAKE_HUNTER)
+  include("cmake/HunterGate.cmake")
+  HunterGate(
+      URL "https://github.com/cpp-pm/hunter/archive/v0.23.288.tar.gz"
+      SHA1 "6c9b2bc606d86ae31f96a62fc68f0a593024815b"
+  )
+endif()
 
 project(s3 VERSION 4.1)
 
@@ -25,17 +27,22 @@ add_library(
     src/util.c
 )
 
-hunter_add_package(libxml2)
-find_package(libxml2 CONFIG REQUIRED)
-target_link_libraries(s3 PUBLIC libxml2::libxml2)
+if(NOT LIBS3_DISABLE_CMAKE_HUNTER)
+  hunter_add_package(libxml2)
+  find_package(libxml2 CONFIG REQUIRED)
+  target_link_libraries(s3 PUBLIC libxml2::libxml2)
 
-hunter_add_package(CURL)
-find_package(CURL CONFIG REQUIRED)
-target_link_libraries(s3 PUBLIC CURL::libcurl)
+  hunter_add_package(CURL)
+  find_package(CURL CONFIG REQUIRED)
+  target_link_libraries(s3 PUBLIC CURL::libcurl)
 
-hunter_add_package(ZLIB)
-find_package(ZLIB CONFIG REQUIRED)
-target_link_libraries(s3 PUBLIC ZLIB::zlib)
+  hunter_add_package(ZLIB)
+  find_package(ZLIB CONFIG REQUIRED)
+  target_link_libraries(s3 PUBLIC ZLIB::zlib)
+endif()
+if(LIBS3_EXTERNAL_LINK_LIBRARIES)
+  target_link_libraries(s3 PUBLIC ${LIBS3_EXTERNAL_LINK_LIBRARIES})
+endif()
 
 target_include_directories(
     s3 PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/inc>
