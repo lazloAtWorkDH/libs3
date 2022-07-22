@@ -167,7 +167,8 @@ void S3_test_bucket(S3Protocol protocol, S3UriStyle uriStyle,
         &testBucketDataCallback,                      // fromS3Callback
         &testBucketCompleteCallback,                  // completeCallback
         tbData,                                       // callbackData
-        timeoutMs                                     // timeoutMs
+        timeoutMs,                                    // timeoutMs
+        0                                             // maxUploadSpeed
     };
 
     // Perform the request
@@ -322,7 +323,8 @@ void S3_create_bucket(S3Protocol protocol, const char *accessKeyId,
         createBucketFromS3Callback,                   // fromS3Callback
         &createBucketCompleteCallback,                // completeCallback
         cbData,                                       // callbackData
-        timeoutMs                                     // timeoutMs
+        timeoutMs,                                    // timeoutMs
+        0                                             // maxUploadSpeed
     };
 
     // Perform the request
@@ -410,7 +412,8 @@ void S3_delete_bucket(S3Protocol protocol, S3UriStyle uriStyle,
         0,                                            // fromS3Callback
         &deleteBucketCompleteCallback,                // completeCallback
         dbData,                                       // callbackData
-        timeoutMs                                     // timeoutMs
+        timeoutMs,                                    // timeoutMs
+        0                                             // maxUploadSpeed
     };
 
     // Perform the request
@@ -774,7 +777,8 @@ void S3_list_bucket(const S3BucketContext *bucketContext, const char *prefix,
         &listBucketDataCallback,                      // fromS3Callback
         &listBucketCompleteCallback,                  // completeCallback
         lbData,                                       // callbackData
-        timeoutMs                                     // timeoutMs
+        timeoutMs,                                    // timeoutMs
+        0                                             // maxUploadSpeed
     };
 
     // Perform the request

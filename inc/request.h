@@ -115,6 +115,9 @@ typedef struct RequestParams
 
     // Request timeout. If 0, no timeout will be enforced
     int timeoutMs;
+
+    // Max upload speed. If 0, no limit will be applied. The speed is in byte / sec
+    int maxUploadSpeed;
 } RequestParams;
 
 

@@ -2415,7 +2415,7 @@ static void put_object(int argc, char **argv, int optindex,
 
         do {
             S3_put_object(&bucketContext, key, contentLength, &putProperties, 0,
-                          0, &putObjectHandler, &data);
+                          0, 0, &putObjectHandler, &data);
         } while (S3_status_is_retryable(statusG) && should_retry());
 
         if (data.infile) {
@@ -2538,7 +2538,7 @@ upload:
                                          &putProperties,
                                          &lastModified, 512 /*TBD - magic # */,
                                          manager.etags[seq-1], 0,
-                                         timeoutMsG,
+                                         timeoutMsG, 0,
                                          &copyResponseHandler, 0);
                 } else {
                     S3_upload_part(&bucketContext, key, &putProperties,
@@ -2840,7 +2840,7 @@ static void copy_object(int argc, char **argv, int optindex)
         S3_copy_object(&bucketContext, sourceKey, destinationBucketName,
                        destinationKey, anyPropertiesSet ? &putProperties : 0,
                        &lastModified, sizeof(eTag), eTag, 0,
-                       timeoutMsG,
+                       timeoutMsG, 0,
                        &responseHandler, 0);
     } while (S3_status_is_retryable(statusG) && should_retry());
 
