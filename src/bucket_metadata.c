@@ -161,6 +161,7 @@ void S3_get_acl(const S3BucketContext *bucketContext, const char *key,
         &getAclCompleteCallback,                      // completeCallback
         gaData,                                       // callbackData
         timeoutMs,                                    // timeoutMs
+        0,                                            // maxUploadSpeed
         callbackData                                  // curlCallbackData
     };
 
@@ -368,6 +369,7 @@ void S3_set_acl(const S3BucketContext *bucketContext, const char *key,
         &setXmlCompleteCallback,                      // completeCallback
         data,                                         // callbackData
         timeoutMs,                                    // timeoutMs
+        0,                                            // maxUploadSpeed
         callbackData                                  // curlCallbackData
     };
 
@@ -477,6 +479,7 @@ void S3_get_lifecycle(const S3BucketContext *bucketContext,
         &getLifecycleCompleteCallback,                // completeCallback
         gaData,                                       // callbackData
         timeoutMs,                                    // timeoutMs
+        0,                                            // maxUploadSpeed
         callbackData                                  // curlCallbackData
     };
 
@@ -602,6 +605,7 @@ void S3_set_lifecycle(const S3BucketContext *bucketContext,
         &setXmlCompleteCallback,                      // completeCallback
         data,                                         // callbackData
         timeoutMs,                                    // timeoutMs
+        0,                                            // maxUploadSpeed
         callbackData                                  // curlCallbackData
     };
 

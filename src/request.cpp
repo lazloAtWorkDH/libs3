@@ -57,7 +57,7 @@
 //#define SIGNATURE_DEBUG
 
 extern "C" {
-  
+
 static int verifyPeer;
 
 static char userAgentG[USER_AGENT_SIZE];
@@ -313,7 +313,7 @@ static S3Status append_amz_header(RequestComputedValues *values,
     values->amzHeaders[values->amzHeadersCount++] = &(values->amzHeadersRaw[rawPos]);
 
     const char *headerStr = headerName;
-    
+
     char headerNameWithPrefix[S3_MAX_METADATA_SIZE - sizeof(": v")];
     if (addPrefix) {
         snprintf(headerNameWithPrefix, sizeof(headerNameWithPrefix),
@@ -1252,6 +1252,9 @@ static S3Status setup_curl(Request *request,
         curl_easy_setopt_safe(CURLOPT_TIMEOUT_MS, params->timeoutMs);
     }
 
+    if (params->maxUploadSpeed > 0){
+        curl_easy_setopt_safe(CURLOPT_MAX_SEND_SPEED_LARGE, params->maxUploadSpeed);
+    }
 
     // Append standard headers
 #define append_standard_header(fieldName)                               \
@@ -1788,7 +1791,7 @@ S3Status S3_generate_authenticated_query_string
     RequestParams params =
     { http_request_method_to_type(httpMethod), *bucketContext, key, NULL,
         resource,
-        NULL, NULL, NULL, 0, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL};
+        NULL, NULL, NULL, 0, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, 0, NULL};
 
     RequestComputedValues computed;
     S3Status status = setup_request(&params, &computed, 1);

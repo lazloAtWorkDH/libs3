@@ -193,6 +193,7 @@ void S3_list_service(S3Protocol protocol, const char *accessKeyId,
         &completeCallback,                            // completeCallback
         data,                                         // callbackData
         timeoutMs,                                    // timeoutMs
+        0,                                            // maxUploadSpeed
         callbackData                                  // curlCallbackData
     };
 

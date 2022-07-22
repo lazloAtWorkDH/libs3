@@ -2054,6 +2054,7 @@ void S3_list_bucket(const S3BucketContext *bucketContext,
  *        request to, and does not perform the request immediately.  If NULL,
  *        performs the request immediately and synchronously.
  * @param timeoutMs if not 0 contains total request timeout in milliseconds
+ * @param maxUploadSpeed if not 0, set the max upload speed of the request in byte / sec
  * @param handler gives the callbacks to call as the request is processed and
  *        completed
  * @param callbackData will be passed in as the callbackData parameter to
@@ -2063,7 +2064,7 @@ void S3_put_object(const S3BucketContext *bucketContext, const char *key,
                    uint64_t contentLength,
                    const S3PutProperties *putProperties,
                    S3RequestContext *requestContext,
-                   int timeoutMs,
+                   int timeoutMs, int maxUploadSpeed,
                    const S3PutObjectHandler *handler, void *callbackData);
 
 
@@ -2097,6 +2098,7 @@ void S3_put_object(const S3BucketContext *bucketContext, const char *key,
  *        request to, and does not perform the request immediately.  If NULL,
  *        performs the request immediately and synchronously.
  * @param timeoutMs if not 0 contains total request timeout in milliseconds
+ * @param maxUploadSpeed if not 0, set the max upload speed of the request in byte / sec
  * @param handler gives the callbacks to call as the request is processed and
  *        completed
  * @param callbackData will be passed in as the callbackData parameter to
@@ -2108,7 +2110,7 @@ void S3_copy_object(const S3BucketContext *bucketContext,
                     const S3PutProperties *putProperties,
                     int64_t *lastModifiedReturn, int eTagReturnSize,
                     char *eTagReturn, S3RequestContext *requestContext,
-                    int timeoutMs,
+                    int timeoutMs, int maxUploadSpeed,
                     const S3ResponseHandler *handler, void *callbackData);
 
 
@@ -2148,6 +2150,7 @@ void S3_copy_object(const S3BucketContext *bucketContext,
  *        request to, and does not perform the request immediately.  If NULL,
  *        performs the request immediately and synchronously.
  * @param timeoutMs if not 0 contains total request timeout in milliseconds
+ * @param maxUploadSpeed if not 0, set the max upload speed of the request in byte / sec
  * @param handler gives the callbacks to call as the request is processed and
  *        completed
  * @param callbackData will be passed in as the callbackData parameter to
@@ -2161,7 +2164,7 @@ void S3_copy_object_range(const S3BucketContext *bucketContext,
                           const S3PutProperties *putProperties,
                           int64_t *lastModifiedReturn, int eTagReturnSize,
                           char *eTagReturn, S3RequestContext *requestContext,
-                          int timeoutMs,
+                          int timeoutMs, int maxUploadSpeed,
                           const S3ResponseHandler *handler, void *callbackData);
 
 

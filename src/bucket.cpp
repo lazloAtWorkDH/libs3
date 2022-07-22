@@ -168,6 +168,7 @@ void S3_test_bucket(S3Protocol protocol, S3UriStyle uriStyle,
         &testBucketCompleteCallback,                  // completeCallback
         tbData,                                       // callbackData
         timeoutMs,                                    // timeoutMs
+        0,                                            // maxUploadSpeed
         callbackData                                  // curlCallbackData
     };
 
@@ -324,6 +325,7 @@ void S3_create_bucket(S3Protocol protocol, const char *accessKeyId,
         &createBucketCompleteCallback,                // completeCallback
         cbData,                                       // callbackData
         timeoutMs,                                    // timeoutMs
+        0,                                            // maxUploadSpeed
         callbackData                                  // curlCallbackData
     };
 
@@ -413,6 +415,7 @@ void S3_delete_bucket(S3Protocol protocol, S3UriStyle uriStyle,
         &deleteBucketCompleteCallback,                // completeCallback
         dbData,                                       // callbackData
         timeoutMs,                                    // timeoutMs
+        0,                                            // maxUploadSpeed
         callbackData                                  // curlCallbackData
     };
 
@@ -778,6 +781,7 @@ void S3_list_bucket(const S3BucketContext *bucketContext, const char *prefix,
         &listBucketCompleteCallback,                  // completeCallback
         lbData,                                       // callbackData
         timeoutMs,                                    // timeoutMs
+        0,                                            // maxUploadSpeed
         callbackData                                  // curlCallbackData
     };
 

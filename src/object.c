@@ -43,6 +43,7 @@ void S3_put_object(const S3BucketContext *bucketContext, const char *key,
                    const S3PutProperties *putProperties,
                    S3RequestContext *requestContext,
                    int timeoutMs,
+                   int maxUploadSpeed,
                    const S3PutObjectHandler *handler, void *callbackData)
 {
     // Set up the RequestParams
@@ -73,6 +74,7 @@ void S3_put_object(const S3BucketContext *bucketContext, const char *key,
         handler->responseHandler.completeCallback,    // completeCallback
         callbackData,                                 // callbackData
         timeoutMs,                                    // timeoutMs
+        maxUploadSpeed,                               // maxUploadSpeed
         callbackData                                  // curlCallbackData
     };
 
@@ -182,7 +184,7 @@ void S3_copy_object(const S3BucketContext *bucketContext, const char *key,
                     const S3PutProperties *putProperties,
                     int64_t *lastModifiedReturn, int eTagReturnSize,
                     char *eTagReturn, S3RequestContext *requestContext,
-                    int timeoutMs,
+                    int timeoutMs, int maxUploadSpeed,
                     const S3ResponseHandler *handler, void *callbackData)
 {
     /* Use the range copier with 0 length */
@@ -193,7 +195,7 @@ void S3_copy_object(const S3BucketContext *bucketContext, const char *key,
                          putProperties,
                          lastModifiedReturn, eTagReturnSize,
                          eTagReturn, requestContext,
-                         timeoutMs,
+                         timeoutMs, maxUploadSpeed,
                          handler, callbackData);
 }
 
@@ -206,7 +208,7 @@ void S3_copy_object_range(const S3BucketContext *bucketContext, const char *key,
                           const S3PutProperties *putProperties,
                           int64_t *lastModifiedReturn, int eTagReturnSize,
                           char *eTagReturn, S3RequestContext *requestContext,
-                          int timeoutMs,
+                          int timeoutMs, int maxUploadSpeed,
                           const S3ResponseHandler *handler, void *callbackData)
 {
     // Create the callback data
@@ -269,6 +271,7 @@ void S3_copy_object_range(const S3BucketContext *bucketContext, const char *key,
         &copyObjectCompleteCallback,                  // completeCallback
         data,                                         // callbackData
         timeoutMs,                                    // timeoutMs
+        maxUploadSpeed,                               // maxUploadSpeed
         callbackData                                  // curlCallbackData
     };
 
@@ -314,6 +317,7 @@ void S3_get_object(const S3BucketContext *bucketContext, const char *key,
         handler->responseHandler.completeCallback,    // completeCallback
         callbackData,                                 // callbackData
         timeoutMs,                                    // timeoutMs
+        0,                                            // int maxUploadSpeed
         callbackData                                  // curlCallbackData
     };
 
@@ -357,6 +361,7 @@ void S3_head_object(const S3BucketContext *bucketContext, const char *key,
         handler->completeCallback,                    // completeCallback
         callbackData,                                 // callbackData
         timeoutMs,                                    // timeoutMs
+        0,                                            // int maxUploadSpeed
         callbackData                                  // curlCallbackData
     };
 
@@ -400,6 +405,7 @@ void S3_delete_object(const S3BucketContext *bucketContext, const char *key,
         handler->completeCallback,                    // completeCallback
         callbackData,                                 // callbackData
         timeoutMs,                                    // timeoutMs
+        0,                                            // int maxUploadSpeed
         callbackData                                  // curlCallbackData
     };
 

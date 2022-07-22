@@ -103,8 +103,8 @@ static S3Status initialMultipartXmlCallback(const char *elementPath,
     return S3StatusOK;
 }
 
-static S3Status InitialMultipartPropertiesCallback(const S3ResponseProperties *properties, 
-                                                   void *callbackData) 
+static S3Status InitialMultipartPropertiesCallback(const S3ResponseProperties *properties,
+                                                   void *callbackData)
 {
   InitialMultipartData *mdata = (InitialMultipartData *)callbackData;
   return mdata->handler->responseHandler.propertiesCallback(properties, mdata->userdata);
@@ -153,6 +153,7 @@ void S3_initiate_multipart(S3BucketContext *bucketContext, const char *key,
         InitialMultipartCompleteCallback,             // completeCallback
         mdata,                                        // callbackData
         timeoutMs,                                    // timeoutMs
+        0,                                            // maxUploadSpeed
         callbackData                                  // curlCallbackData
     };
 
@@ -196,6 +197,7 @@ void S3_abort_multipart_upload(S3BucketContext *bucketContext, const char *key,
         AbortMultipartUploadCompleteCallback,         // completeCallback
         0,                                            // callbackData
         timeoutMs,                                    // timeoutMs
+        0,                                            // maxUploadSpeed
         0                                             // curlCallbackData
     };
 
@@ -246,6 +248,7 @@ void S3_upload_part(S3BucketContext *bucketContext, const char *key,
         handler->responseHandler.completeCallback,    // completeCallback
         callbackData,                                 // callbackData
         timeoutMs,                                    // timeoutMs
+        0,                                            // maxUploadSpeed
         callbackData                                  // curlCallbackData
     };
 
@@ -387,6 +390,7 @@ void S3_complete_multipart_upload(S3BucketContext *bucketContext,
         commitMultipartCompleteCallback,              // completeCallback
         data,                                         // callbackData
         timeoutMs,                                    // timeoutMs
+        0,                                             // maxUploadSpeed
         callbackData                                  // curlCallbackData
     };
 
@@ -983,6 +987,7 @@ void S3_list_multipart_uploads(S3BucketContext *bucketContext,
             &listMultipartCompleteCallback,          // completeCallback
             lmData,                                  // callbackData
             timeoutMs,                               // timeoutMs
+            0,                                       // maxUploadSpeed
             callbackData                             // curlCallbackData
         };
 
@@ -1108,6 +1113,7 @@ void S3_list_parts(S3BucketContext *bucketContext, const char *key,
             &listPartsCompleteCallback,              // completeCallback
             lpData,                                  // callbackData
             timeoutMs,                               // timeoutMs
+            0,                                       // maxUploadSpeed
             callbackData                             // curlCallbackData
         };
 
