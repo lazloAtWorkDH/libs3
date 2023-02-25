@@ -111,6 +111,9 @@ typedef struct RequestParams
 
     // Request timeout. If 0, no timeout will be enforced
     int timeoutMs;
+
+    // Data passed to S3SetupCurlCallbackEx
+    void *curlCallbackData;
 } RequestParams;
 
 

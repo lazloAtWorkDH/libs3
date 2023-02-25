@@ -1279,6 +1279,8 @@ typedef S3Status (S3MultipartCommitResponseCallback)(const char *location,
  **/
 typedef S3Status (*S3SetupCurlCallback)(void *curlMulti, void *curlEasy,
                                         void *setupData);
+typedef S3Status (*S3SetupCurlCallbackEx)(void *curlMulti, void *curlEasy,
+                                          void *setupData, void *requestData);
 
 
 /** **************************************************************************
@@ -1667,6 +1669,10 @@ S3Status S3_create_request_context_ex(S3RequestContext **requestContextReturn,
                                       void *curlMulti,
                                       S3SetupCurlCallback setupCurlCallback,
                                       void *setupCurlCallbackData);
+S3Status S3_create_request_context_ex2(S3RequestContext **requestContextReturn,
+                                       void *curlMulti,
+                                       S3SetupCurlCallbackEx setupCurlCallback,
+                                       void *setupCurlCallbackData);
 
 
 /**

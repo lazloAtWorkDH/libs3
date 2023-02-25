@@ -192,7 +192,8 @@ void S3_list_service(S3Protocol protocol, const char *accessKeyId,
         &dataCallback,                                // fromS3Callback
         &completeCallback,                            // completeCallback
         data,                                         // callbackData
-        timeoutMs                                     // timeoutMs
+        timeoutMs,                                    // timeoutMs
+        callbackData                                  // curlCallbackData
     };
 
     // Perform the request

@@ -54,6 +54,7 @@ struct S3RequestContext
     struct Request *requests;
 
     S3SetupCurlCallback setupCurlCallback;
+    S3SetupCurlCallbackEx setupCurlCallbackEx;
     void *setupCurlCallbackData;
 };
 

@@ -1381,13 +1381,17 @@ static S3Status request_get(const RequestParams *params,
         return status;
     }
 
-    if (context && context->setupCurlCallback &&
-        (status = context->setupCurlCallback(
-                context->curlm, request->curl,
-                context->setupCurlCallbackData)) != S3StatusOK) {
-        curl_easy_cleanup(request->curl);
-        free(request);
-        return status;
+    if (context) {
+        if (context->setupCurlCallback) {
+            status = context->setupCurlCallback(context->curlm, request->curl, context->setupCurlCallbackData);
+        } else if (context->setupCurlCallbackEx) {
+            status = context->setupCurlCallbackEx(context->curlm, request->curl, context->setupCurlCallbackData, params->curlCallbackData);
+        }
+        if (status != S3StatusOK) {
+            curl_easy_cleanup(request->curl);
+            free(request);
+            return status;
+        }
     }
 
     request->propertiesCallback = params->propertiesCallback;
@@ -1760,7 +1764,7 @@ S3Status S3_generate_authenticated_query_string
     RequestParams params =
     { http_request_method_to_type(httpMethod), *bucketContext, key, NULL,
         resource,
-        NULL, NULL, NULL, 0, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0};
+        NULL, NULL, NULL, 0, 0, NULL, NULL, NULL, 0, NULL, NULL, NULL, 0, NULL};
 
     RequestComputedValues computed;
     S3Status status = setup_request(&params, &computed, 1);
