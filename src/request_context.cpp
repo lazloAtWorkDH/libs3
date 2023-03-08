@@ -66,9 +66,23 @@ S3Status S3_create_request_context_ex(S3RequestContext **requestContextReturn,
     (*requestContextReturn)->verifyPeer = 0;
     (*requestContextReturn)->verifyPeerSet = 0;
     (*requestContextReturn)->setupCurlCallback = setupCurlCallback;
+    (*requestContextReturn)->setupCurlCallbackEx = NULL;
     (*requestContextReturn)->setupCurlCallbackData = setupCurlCallbackData;
 
     return S3StatusOK;
+}
+
+
+S3Status S3_create_request_context_ex2(S3RequestContext **requestContextReturn,
+                                       CURLM *curlm,
+                                       S3SetupCurlCallbackEx setupCurlCallback,
+                                       void *setupCurlCallbackData)
+{
+    S3Status retr = S3_create_request_context_ex(requestContextReturn, curlm, NULL, setupCurlCallbackData);
+    if (retr == S3StatusOK) {
+        (*requestContextReturn)->setupCurlCallbackEx = setupCurlCallback;
+    }
+    return retr;
 }
 
 
