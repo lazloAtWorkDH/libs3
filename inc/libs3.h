@@ -223,7 +223,11 @@ extern "C" {
  * basis by calling S3_set_request_context_verify_peer).
  */
 #define S3_INIT_VERIFY_PEER                2
-
+/**
+ * This constant is used by the S3_initialize() function, it is used to disable
+ * the underlying SSL library.  This is useful for testing and debugging.
+ */
+#define S3_INIT_DONT_USE_SSL                4
 
 /**
  * This convenience constant is used by the S3_initialize() function to

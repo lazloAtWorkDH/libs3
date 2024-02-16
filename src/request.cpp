@@ -1480,8 +1480,9 @@ static void request_release(Request *request)
 S3Status request_api_initialize(const char *userAgentInfo, int flags,
                                 const char *defaultHostName)
 {
-    if (curl_global_init(CURL_GLOBAL_ALL &
-                         ~((flags & S3_INIT_WINSOCK) ? 0 : CURL_GLOBAL_WIN32))
+    long curlFlags = CURL_GLOBAL_ALL & ~((flags & S3_INIT_WINSOCK) ? 0 : CURL_GLOBAL_WIN32);
+    curlFlags &= ~((flags & S3_INIT_DONT_USE_SSL) ? CURL_GLOBAL_SSL : 0);
+    if (curl_global_init(curlFlags)
         != CURLE_OK) {
         return S3StatusInternalError;
     }
