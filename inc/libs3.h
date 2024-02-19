@@ -1496,6 +1496,65 @@ typedef struct S3AbortMultipartUploadHandler
 S3Status S3_initialize(const char *userAgentInfo, int flags,
                        const char *defaultS3HostName);
 
+/**
+ * Initializes libs3 for use.  This function must be called before any other
+ * libs3 function is called.  it must called once per program.  This function
+ * is NOT thread-safe and must only be called by one thread at a time.
+ * This function is a initialize function for the curl lib under the libs3.
+ * This function is a the first part of the S3_initialize() function. After this
+ * function the S3_light_initialize() function must be called.
+ *
+ * @param int flags is a bitmask of some combination of S3_INIT_XXX flag, or
+ *            S3_INIT_ALL, indicating which of the libraries that libs3 depends
+ *            upon should be initialized.
+ * @return One of:
+ *         S3StatusOK on success
+ *         S3StatusInternalError if dependent libraries could not be
+ *             initialized
+**/
+S3Status S3_setup_curl(int flags);
+
+
+/**
+ * Initializes libs3 for use.  This function must be called after S3_setup_curl() and
+ * before any other libs3 function is called.  It may be called multiple times, with
+ * the same effect as calling it once, as long as S3_deinitialize() is called an
+ * equal number of times when the program has finished.  This function is NOT
+ * thread-safe and must only be called by one thread at a time.
+ *
+ * @param userAgentInfo is a string that will be included in the User-Agent
+ *        header of every request made to the S3 service.  You may provide
+ *        NULL or the empty string if you don't care about this.  The value
+ *        will not be copied by this function and must remain unaltered by the
+ *        caller until S3_deinitialize() is called.
+ * @param flags is a bitmask of some combination of S3_INIT_XXX flag, or
+ *        S3_INIT_ALL, indicating which of the libraries that libs3 depends
+ *        upon should be initialized by S3_initialize().  Only if your program
+ *        initializes one of these dependency libraries itself should anything
+ *        other than S3_INIT_ALL be passed in for this bitmask.
+ *
+ *        You should pass S3_INIT_WINSOCK if and only if your application does
+ *        not initialize winsock elsewhere.  On non-Microsoft Windows
+ *        platforms it has no effect.
+ *
+ *        As a convenience, the macro S3_INIT_ALL is provided, which will do
+ *        all necessary initialization; however, be warned that things may
+ *        break if your application re-initializes the dependent libraries
+ *        later.
+ * @param defaultS3HostName is a string the specifies the default S3 server
+ *        hostname to use when making S3 requests; this value is used
+ *        whenever the hostName of an S3BucketContext is NULL.  If NULL is
+ *        passed here then the default of S3_DEFAULT_HOSTNAME will be used.
+ * @return One of:
+ *         S3StatusOK on success
+ *         S3StatusUriTooLong if the defaultS3HostName is longer than
+ *             S3_MAX_HOSTNAME_SIZE
+ *         S3StatusInternalError if dependent libraries could not be
+ *             initialized
+ *         S3StatusOutOfMemory on failure due to out of memory
+*/
+S3Status S3_light_initialize(const char *userAgentInfo, int flags,
+                       const char *defaultS3HostName);
 
 /**
  * Must be called once per program for each call to libs3_initialize().  After

@@ -49,6 +49,23 @@ S3Status S3_initialize(const char *userAgentInfo, int flags,
 }
 
 
+S3Status S3_setup_curl(int flags)
+{
+    return request_api_setup_curl(flags);
+}
+
+
+S3Status S3_light_initialize(const char *userAgentInfo, int flags,
+                       const char *defaultS3HostName)
+{
+    if (initializeCountG++) {
+        return S3StatusOK;
+    }
+
+    return request_api_light_initialize(userAgentInfo, flags, defaultS3HostName);
+}
+
+
 void S3_deinitialize()
 {
     if (--initializeCountG) {

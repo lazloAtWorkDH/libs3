@@ -1486,6 +1486,58 @@ S3Status request_api_initialize(const char *userAgentInfo, int flags,
         != CURLE_OK) {
         return S3StatusInternalError;
     }
+
+    verifyPeer = (flags & S3_INIT_VERIFY_PEER) != 0;
+
+    if (!defaultHostName) {
+        defaultHostName = S3_DEFAULT_HOSTNAME;
+    }
+
+    if (snprintf(defaultHostNameG, S3_MAX_HOSTNAME_SIZE,
+                 "%s", defaultHostName) >= S3_MAX_HOSTNAME_SIZE) {
+        return S3StatusUriTooLong;
+    }
+
+    requestStackCountG = 0;
+
+    if (!userAgentInfo || !*userAgentInfo) {
+        userAgentInfo = "Unknown";
+    }
+
+    struct utsname utsn;
+    char platform[sizeof(utsn.sysname) + 1 + sizeof(utsn.machine) + 1];
+    if (uname(&utsn)) {
+        snprintf(platform, sizeof(platform), "Unknown");
+    }
+    else {
+        snprintf(platform, sizeof(platform), "%s%s%s", utsn.sysname,
+                 utsn.machine[0] ? " " : "", utsn.machine);
+    }
+
+    snprintf(userAgentG, sizeof(userAgentG),
+             "Mozilla/4.0 (Compatible; %s; libs3 %s.%s; %s)",
+             userAgentInfo, LIBS3_VER_MAJOR, LIBS3_VER_MINOR, platform);
+
+    xmlInitParser();
+    return S3StatusOK;
+}
+
+
+S3Status request_api_setup_curl(int flags)
+{
+    long curlFlags = CURL_GLOBAL_ALL & ~((flags & S3_INIT_WINSOCK) ? 0 : CURL_GLOBAL_WIN32);
+    curlFlags &= ~((flags & S3_INIT_DONT_USE_SSL) ? CURL_GLOBAL_SSL : 0);
+    if (curl_global_init(curlFlags) != CURLE_OK) {
+        return S3StatusInternalError;
+    }
+
+    return S3StatusOK;
+}
+
+
+S3Status request_api_light_initialize(const char *userAgentInfo, int flags,
+                                const char *defaultHostName)
+{
     verifyPeer = (flags & S3_INIT_VERIFY_PEER) != 0;
 
     if (!defaultHostName) {

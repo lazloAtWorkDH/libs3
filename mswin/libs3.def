@@ -15,6 +15,8 @@ S3_get_server_access_logging
 S3_get_status_name
 S3_head_object
 S3_initialize
+S3_setup_curl
+S3_light_initialize
 S3_list_bucket
 S3_list_service
 S3_put_object

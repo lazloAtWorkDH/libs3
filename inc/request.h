@@ -189,6 +189,13 @@ typedef struct Request
 S3Status request_api_initialize(const char *userAgentInfo, int flags,
                                 const char *hostName);
 
+// Intialize the API's curl handle
+S3Status request_api_setup_curl(int flags);
+
+// Initialize the API's light mode
+S3Status request_api_light_initialize(const char *userAgentInfo, int flags,
+                                const char *defaultHostName);
+
 // Deinitialize the API
 void request_api_deinitialize();
 
